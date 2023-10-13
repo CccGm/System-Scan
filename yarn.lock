@@ -2053,6 +2053,10 @@
     "json-schema-traverse" "^0.4.1"
     "uri-js" "^4.2.2"
 
+"android@file:../../../../../../usr/local/lib/node_modules/android":
+  "resolved" "file:../../../../../../usr/local/lib/node_modules/android"
+  "version" "0.0.8"
+
 "anser@^1.4.9":
   "integrity" "sha512-hCv9AqTQ8ycjpSd3upOJd7vFwW1JaoYQ7tpham03GJ1ca8/65rqn0RpaWpItOAd6ylW9wAw6luXYPJIyPFVOww=="
   "resolved" "https://registry.npmjs.org/anser/-/anser-1.4.10.tgz"
@@ -5486,6 +5490,11 @@
   "resolved" "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.11.0.tgz"
   "version" "10.11.0"
 
+"react-native-launcher-kit@^1.0.4":
+  "integrity" "sha512-Tt3wt8eHPQ/3dcGsBMB4dXfTiYdHkyvnwmS/guVh/UrIl1wlX+mZjfKSc87yj3ttUv6UQXjOuX9D2Lk5naqJIQ=="
+  "resolved" "https://registry.npmjs.org/react-native-launcher-kit/-/react-native-launcher-kit-1.0.4.tgz"
+  "version" "1.0.4"
+
 "react-native@*", "react-native@0.72.5":
   "integrity" "sha512-oIewslu5DBwOmo7x5rdzZlZXCqDIna0R4dUwVpfmVteORYLr4yaZo5wQnMeR+H7x54GaMhmgeqp0ZpULtulJFg=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.72.5.tgz"
@@ -5550,7 +5559,7 @@
     "react-shallow-renderer" "^16.15.0"
     "scheduler" "^0.23.0"
 
-"react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^18.2.0", "react@18.2.0":
+"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^18.2.0", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"
