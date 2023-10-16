@@ -174,16 +174,22 @@ export const Screen_3 = () => {
 
   return (
     <View style={{flex: 1, borderWidth: 1, margin: 10, padding: 10}}>
-      <Text
-        style={{fontSize: 18, color: '#875383', fontWeight: '500', margin: 5}}>
-        Screen 2
-      </Text>
-      {Object.entries(state).map(([key, value]) => (
-        <Text key={key}>
-          {key} :- {value}
-        </Text>
-      ))}
       <ScrollView>
+        <Text
+          style={{
+            fontSize: 18,
+            color: '#875383',
+            fontWeight: '500',
+            margin: 5,
+          }}>
+          Screen 2
+        </Text>
+        {Object.entries(state).map(([key, value]) => (
+          <Text key={key}>
+            {key} :- {value}
+          </Text>
+        ))}
+
         <Text
           style={{
             textAlign: 'left',

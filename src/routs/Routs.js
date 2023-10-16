@@ -1,0 +1,32 @@
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Screen_1} from '../screen/Screen_1';
+import {Screen_2} from '../screen/Screen_2';
+import {Screen_3} from '../screen/Screen_3';
+import {Screen_4} from '../screen/Screen_4';
+
+export const Routs = () => {
+  const Stack = createNativeStackNavigator();
+  const Tab = createBottomTabNavigator();
+
+  function Home() {
+    return (
+      <Tab.Navigator screenOptions={{headerShown: false}}>
+        <Tab.Screen name="Screen_1" component={Screen_1} />
+        <Tab.Screen name="Screen_2" component={Screen_2} />
+        <Tab.Screen name="Screen_3" component={Screen_3} />
+        <Tab.Screen name="Screen_4" component={Screen_4} />
+      </Tab.Navigator>
+    );
+  }
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};

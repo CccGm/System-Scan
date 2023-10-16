@@ -116,54 +116,51 @@ export const Screen_2 = () => {
 
   return (
     <View style={{flex: 1, borderWidth: 1, margin: 10, padding: 10}}>
-      <Text
-        style={{fontSize: 18, color: '#875383', fontWeight: 500, margin: 5}}>
-        Screen 2
-      </Text>
-      <Text>Your Device :- {DeviceName}</Text>
-      <Text>ApiLevel :- {ApiLevel}</Text>
-      <Text>BuildId :- {BuildId}</Text>
-      <Text>Manufacturer :- {Manufacturer}</Text>
-      <Text>UserAgent :- {UserAgent}</Text>
-      <Text>hasNotch :- {hasNotch ? 'Yes' : 'No'}</Text>
-      <Text>IpAddress :- {IpAddress}</Text>
-      {Platform.OS == 'ios' ? <Text>MacAddress :- {MacAddress}</Text> : null}
-      <Text>BatteryLevel :- {BatteryLevel}</Text>
-      <Text>isLandscape :- {isLandscape ? 'Yes' : 'No'}</Text>
-      <Text>isAirplaneModeon :- {isAirplaneMode ? 'Yes' : 'No'}</Text>
-      <Text>isBatteryCharging :- {isBatteryCharging ? 'Yes' : 'No'}</Text>
-      <Text>
-        isPinOrFingerprintSet :- {isPinOrFingerprintSet ? 'Yes' : 'No'}
-      </Text>
-      <Text>supportedAbis :- {supportedAbis}</Text>
-      <Text>isLocationEnabled :- {isLocationEnabled ? 'Yes' : 'No'}</Text>
-      <Text>
-        isHeadphonesConnected :- {isHeadphonesConnected ? 'Yes' : 'No'}
-      </Text>
-      <Text>device :- {device}</Text>
-      <Text>Display :- {Display}</Text>
-      <Text>Fingerprint :- {Fingerprint}</Text>
-      <Text>Hardware :- {Hardware}</Text>
-      <Text>Host :- {Host}</Text>
-      <Text>Product :- {Product}</Text>
-      <Text>Tags :- {Tags}</Text>
-      <Text>PreviewSdkInt :- {PreviewSdkInt}</Text>
-      <Text>Codename :- {Codename}</Text>
-      <Text>Incremental :- {Incremental}</Text>
-      <Text>syncUniqueId :- {syncUniqueId}</Text>
-      <Text>DeviceId :- {DeviceId}</Text>
-      <Text>getBundleId :- {getBundleId}</Text>
-      <Text>SystemVersion :- {SystemVersion}</Text>
-      <Text>isTablet :- {isTablet ? 'Yes' : 'No'}</Text>
-      <Text>ApplicationName :- {ApplicationName}</Text>
-      <Text>InstanceId :- {InstanceId}</Text>
-      <Text>SecurityPatch :- {SecurityPatch}</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text>Your Device :- {DeviceName}</Text>
+        <Text>ApiLevel :- {ApiLevel}</Text>
+        <Text>BuildId :- {BuildId}</Text>
+        <Text>Manufacturer :- {Manufacturer}</Text>
+        <Text>UserAgent :- {UserAgent}</Text>
+        <Text>hasNotch :- {hasNotch ? 'Yes' : 'No'}</Text>
+        <Text>IpAddress :- {IpAddress}</Text>
+        {Platform.OS == 'ios' ? <Text>MacAddress :- {MacAddress}</Text> : null}
+        <Text>BatteryLevel :- {BatteryLevel}</Text>
+        <Text>isLandscape :- {isLandscape ? 'Yes' : 'No'}</Text>
+        <Text>isAirplaneModeon :- {isAirplaneMode ? 'Yes' : 'No'}</Text>
+        <Text>isBatteryCharging :- {isBatteryCharging ? 'Yes' : 'No'}</Text>
+        <Text>
+          isPinOrFingerprintSet :- {isPinOrFingerprintSet ? 'Yes' : 'No'}
+        </Text>
+        <Text>supportedAbis :- {supportedAbis}</Text>
+        <Text>isLocationEnabled :- {isLocationEnabled ? 'Yes' : 'No'}</Text>
+        <Text>
+          isHeadphonesConnected :- {isHeadphonesConnected ? 'Yes' : 'No'}
+        </Text>
+        <Text>device :- {device}</Text>
+        <Text>Display :- {Display}</Text>
+        <Text>Fingerprint :- {Fingerprint}</Text>
+        <Text>Hardware :- {Hardware}</Text>
+        <Text>Host :- {Host}</Text>
+        <Text>Product :- {Product}</Text>
+        <Text>Tags :- {Tags}</Text>
+        <Text>PreviewSdkInt :- {PreviewSdkInt}</Text>
+        <Text>Codename :- {Codename}</Text>
+        <Text>Incremental :- {Incremental}</Text>
+        <Text>syncUniqueId :- {syncUniqueId}</Text>
+        <Text>DeviceId :- {DeviceId}</Text>
+        <Text>getBundleId :- {getBundleId}</Text>
+        <Text>SystemVersion :- {SystemVersion}</Text>
+        <Text>isTablet :- {isTablet ? 'Yes' : 'No'}</Text>
+        <Text>ApplicationName :- {ApplicationName}</Text>
+        <Text>InstanceId :- {InstanceId}</Text>
+        <Text>SecurityPatch :- {SecurityPatch}</Text>
 
-      <Text>TotalMemory :- {getTotalMemory}</Text>
-      <Text>UsedMemory :- {UsedMemory}</Text>
-      <Text>TotalDiskCapacity :- {getTotalDiskCapacity}</Text>
-      <Text>FreeDiskStorage :- {getFreeDiskStorage}</Text>
-      <ScrollView>
+        <Text>TotalMemory :- {getTotalMemory}</Text>
+        <Text>UsedMemory :- {UsedMemory}</Text>
+        <Text>TotalDiskCapacity :- {getTotalDiskCapacity}</Text>
+        <Text>FreeDiskStorage :- {getFreeDiskStorage}</Text>
+
         <Text
           style={{
             textAlign: 'left',

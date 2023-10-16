@@ -6,8 +6,7 @@ export const Screen_1 = () => {
   const [Version, setVersion] = useState(Platform.Version);
 
   return (
-    <View style={{margin: 20, backgroundColorL: '#986985'}}>
-      <Text style={{fontSize: 20}}>Screen 1</Text>
+    <View style={{flex: 1, borderWidth: 1, margin: 10, padding: 10}}>
       <Text style={{fontSize: 20}}>Your Device is :- {Device}</Text>
       <Text style={{fontSize: 20}}>Your Device version is :- {Version}</Text>
     </View>
