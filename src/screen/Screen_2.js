@@ -91,6 +91,7 @@ export const Screen_2 = () => {
         setisHeadphonesConnected(data),
       );
 
+      await DeviceInfo.supportedAbis().then(data => setsupportedAbis(data));
       await DeviceInfo.getDevice().then(data => setdevice(data));
       await DeviceInfo.getDisplay().then(data => setDisplay(data));
       await DeviceInfo.getFingerprint().then(data => setFingerprint(data));
@@ -126,16 +127,16 @@ export const Screen_2 = () => {
         <Text>IpAddress :- {IpAddress}</Text>
         {Platform.OS == 'ios' ? <Text>MacAddress :- {MacAddress}</Text> : null}
         <Text>BatteryLevel :- {BatteryLevel}</Text>
-        <Text>isLandscape :- {isLandscape ? 'Yes' : 'No'}</Text>
-        <Text>isAirplaneModeon :- {isAirplaneMode ? 'Yes' : 'No'}</Text>
-        <Text>isBatteryCharging :- {isBatteryCharging ? 'Yes' : 'No'}</Text>
+        <Text>Landscape :- {isLandscape ? 'Yes' : 'No'}</Text>
+        <Text>AirplaneModeon :- {isAirplaneMode ? 'Yes' : 'No'}</Text>
+        <Text>BatteryCharging :- {isBatteryCharging ? 'Yes' : 'No'}</Text>
         <Text>
-          isPinOrFingerprintSet :- {isPinOrFingerprintSet ? 'Yes' : 'No'}
+          PinOrFingerprintSet :- {isPinOrFingerprintSet ? 'Yes' : 'No'}
         </Text>
         <Text>supportedAbis :- {supportedAbis}</Text>
-        <Text>isLocationEnabled :- {isLocationEnabled ? 'Yes' : 'No'}</Text>
+        <Text>LocationEnabled :- {isLocationEnabled ? 'Yes' : 'No'}</Text>
         <Text>
-          isHeadphonesConnected :- {isHeadphonesConnected ? 'Yes' : 'No'}
+          HeadphonesConnected :- {isHeadphonesConnected ? 'Yes' : 'No'}
         </Text>
         <Text>device :- {device}</Text>
         <Text>Display :- {Display}</Text>
@@ -147,9 +148,9 @@ export const Screen_2 = () => {
         <Text>PreviewSdkInt :- {PreviewSdkInt}</Text>
         <Text>Codename :- {Codename}</Text>
         <Text>Incremental :- {Incremental}</Text>
-        <Text>syncUniqueId :- {syncUniqueId}</Text>
+        <Text>UniqueId :- {syncUniqueId}</Text>
         <Text>DeviceId :- {DeviceId}</Text>
-        <Text>getBundleId :- {getBundleId}</Text>
+        <Text>BundleId :- {getBundleId}</Text>
         <Text>SystemVersion :- {SystemVersion}</Text>
         <Text>isTablet :- {isTablet ? 'Yes' : 'No'}</Text>
         <Text>ApplicationName :- {ApplicationName}</Text>

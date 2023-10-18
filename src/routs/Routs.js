@@ -6,6 +6,7 @@ import {Screen_1} from '../screen/Screen_1';
 import {Screen_2} from '../screen/Screen_2';
 import {Screen_3} from '../screen/Screen_3';
 import {Screen_4} from '../screen/Screen_4';
+import {Platform} from 'react-native';
 
 export const Routs = () => {
   const Stack = createNativeStackNavigator();
@@ -17,7 +18,9 @@ export const Routs = () => {
         <Tab.Screen name="Screen_1" component={Screen_1} />
         <Tab.Screen name="Screen_2" component={Screen_2} />
         <Tab.Screen name="Screen_3" component={Screen_3} />
-        <Tab.Screen name="Screen_4" component={Screen_4} />
+        {Platform.OS == 'ios' ? null : (
+          <Tab.Screen name="Screen_4" component={Screen_4} />
+        )}
       </Tab.Navigator>
     );
   }
