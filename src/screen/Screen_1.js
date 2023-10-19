@@ -1,52 +1,72 @@
-import React, {useEffect} from 'react';
-import {PermissionsAndroid, Text, View} from 'react-native';
-import WifiManager from 'react-native-wifi-reborn';
+import React, {useEffect, useState} from 'react';
+import {Button, Text, View} from 'react-native';
+import Ping from 'react-native-ping';
+import {NetworkInfo} from 'react-native-network-info';
 
 export const Screen_1 = () => {
+  const [ip, setip] = useState(null);
+  const [available, setAvailable] = useState(null);
+  const [getway, setgateWay] = useState(null);
+
+  let LIST = [];
+  async function lanScan() {
+    setAvailable(null);
+    for (var i = 1; i <= 255; i++) {
+      try {
+        await Ping.start(ip.substring(0, ip.lastIndexOf('.')) + '.' + i, {
+          timeout: 500,
+        });
+        console.log(
+          ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
+          '<- awailable ->',
+        );
+        LIST.push(i);
+      } catch (error) {
+        // console.log('special code', error.code, error.message, 'no is:-', i);
+      }
+    }
+    console.log(JSON.stringify(LIST));
+    setAvailable(LIST);
+    console.log('Done!');
+  }
+
   useEffect(() => {
-    get_data();
+    NetworkInfo.getIPAddress().then(ipAddress => {
+      console.log(ipAddress, '----ipaddress');
+    });
+
+    // Get IPv4 IP (priority: WiFi first, cellular second)
+    NetworkInfo.getIPV4Address().then(ipv4Address => {
+      console.log(ipv4Address, '----ip v4');
+      setip(ipv4Address);
+    });
+
+    // Get Default Gateway IP
+    NetworkInfo.getGatewayIPAddress().then(defaultGateway => {
+      console.log(defaultGateway, '----gate way');
+      setgateWay(defaultGateway);
+    });
   }, []);
 
-  const get_data = async () => {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Location permission is required for WiFi connections',
-        message:
-          'This app needs location permission as this is required  ' +
-          'to scan for wifi networks.',
-        buttonNegative: 'DENY',
-        buttonPositive: 'ALLOW',
-      },
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('Permission granted');
-    } else {
-      console.log('Note give permission');
+  useEffect(() => {
+    if (ip != null) {
+      lanScan();
     }
-  };
-
-  WifiManager.getIP().then(
-    abc => {
-      console.log('Connected successfully!', abc);
-    },
-    () => {
-      console.log('Connection failed!');
-    },
-  );
-
-  WifiManager.getCurrentWifiSSID().then(
-    ssid => {
-      console.log('Your current connected wifi SSID is ' + ssid);
-    },
-    () => {
-      console.log('Cannot get current SSID!');
-    },
-  );
+  }, [ip]);
 
   return (
     <View style={{flex: 1, margin: 10, borderWidth: 1}}>
       <Text>Hiii Screnn_1</Text>
+      {available == null ? (
+        <Text>Scanning ...</Text>
+      ) : (
+        <View>
+          <Text style={{fontSize: 20}}>
+            Available Devices : - {JSON.stringify(available)}
+          </Text>
+          <Button title="Rescan" onPress={lanScan()} />
+        </View>
+      )}
     </View>
   );
 };
