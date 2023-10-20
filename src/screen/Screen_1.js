@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Text, View} from 'react-native';
+import React, {Children, useEffect, useState} from 'react';
+import {Button, Text, TouchableOpacity, View} from 'react-native';
 import Ping from 'react-native-ping';
 import {NetworkInfo} from 'react-native-network-info';
+import {getIpAddressesForHostname} from 'react-native-dns-lookup';
 
 export const Screen_1 = () => {
   const [ip, setip] = useState(null);
@@ -20,7 +21,7 @@ export const Screen_1 = () => {
           ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
           '<- awailable ->',
         );
-        LIST.push(i);
+        LIST.push(ip.substring(0, ip.lastIndexOf('.')) + '.' + i);
       } catch (error) {
         // console.log('special code', error.code, error.message, 'no is:-', i);
       }
@@ -51,20 +52,54 @@ export const Screen_1 = () => {
   useEffect(() => {
     if (ip != null) {
       lanScan();
+      getIpAddressesForHostname('192.168.0.109').then(ipAddresses =>
+        console.log(ipAddresses, 'host name ---'),
+      );
     }
+    getPublicIPAddress();
   }, [ip]);
 
+  const getPublicIPAddress = async () => {
+    try {
+      const response = await fetch(
+        'https://dns.google/resolve?name=o-o.myaddr.l.google.com&type=TXT',
+      );
+      if (response.data && response.data.Answer) {
+        const ipAddress = response.data.Answer[0].data;
+        console.log('Your public IP address is:', ipAddress);
+        return ipAddress;
+      }
+    } catch (error) {
+      console.error('Error getting public IP address:', error);
+    }
+    return null;
+  };
+
   return (
-    <View style={{flex: 1, margin: 10, borderWidth: 1}}>
-      <Text>Hiii Screnn_1</Text>
+    <View style={{flex: 1, margin: 10, borderWidth: 1, padding: 20}}>
+      <Text style={{fontSize: 20, color: '#5da539'}}>Screen 1</Text>
       {available == null ? (
         <Text>Scanning ...</Text>
       ) : (
-        <View>
-          <Text style={{fontSize: 20}}>
-            Available Devices : - {JSON.stringify(available)}
-          </Text>
-          <Button title="Rescan" onPress={lanScan()} />
+        <View style={{flex: 1, padding: 10}}>
+          {available.map(data => {
+            return <Text style={{fontSize: 16, color: '#d36318'}}>{data}</Text>;
+          })}
+
+          <TouchableOpacity
+            onPress={lanScan}
+            style={{
+              margin: 25,
+              padding: 10,
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#2bbd2650',
+            }}>
+            <Text style={{fontSize: 16, fontWeight: '500', color: '#897213aa'}}>
+              Re Scan
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>
