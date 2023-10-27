@@ -51,7 +51,6 @@ export const Screen_2 = () => {
       await DeviceInfo.getManufacturer().then(data => setManufacturer(data));
       await DeviceInfo.getBuildId().then(data => setBuildId(data));
       await DeviceInfo.getDeviceName().then(data => setDeviceName(data));
-      await DeviceInfo.getUsedMemory().then(data => setUsedMemory(data));
       await DeviceInfo.getUserAgent().then(data => setUserAgent(data));
       await DeviceInfo.getInstanceId().then(data => setInstanceId(data));
 
@@ -67,14 +66,21 @@ export const Screen_2 = () => {
       await DeviceInfo.getIpAddress().then(data => setIpAddress(data));
       await DeviceInfo.getMacAddress().then(data => setMacAddress(data));
       await DeviceInfo.getApiLevel().then(data => setApiLevel(data));
-      await DeviceInfo.getTotalMemory().then(data => setgetTotalMemory(data));
+      await DeviceInfo.getTotalMemory().then(data =>
+        setgetTotalMemory((data / 1073741824).toFixed(2)),
+      );
+      await DeviceInfo.getUsedMemory().then(data =>
+        setUsedMemory((data / 1073741824).toFixed(2)),
+      );
       await DeviceInfo.getTotalDiskCapacity().then(data =>
-        setgetTotalDiskCapacity(data),
+        setgetTotalDiskCapacity((data / 1073741824).toFixed(2)),
       );
       await DeviceInfo.getFreeDiskStorage().then(data =>
-        setgetFreeDiskStorage(data),
+        setgetFreeDiskStorage((data / 1073741824).toFixed(2)),
       );
-      await DeviceInfo.getBatteryLevel().then(data => setBatteryLevel(data));
+      await DeviceInfo.getBatteryLevel().then(data =>
+        setBatteryLevel((data * 100).toFixed(2)),
+      );
       await DeviceInfo.isLandscape().then(data => setisLandscape(data));
       await DeviceInfo.isAirplaneMode().then(data => setisAirplaneMode(data));
       await DeviceInfo.isBatteryCharging().then(data =>
@@ -126,7 +132,7 @@ export const Screen_2 = () => {
         <Text>hasNotch :- {hasNotch ? 'Yes' : 'No'}</Text>
         <Text>IpAddress :- {IpAddress}</Text>
         {Platform.OS == 'ios' ? <Text>MacAddress :- {MacAddress}</Text> : null}
-        <Text>BatteryLevel :- {BatteryLevel}</Text>
+        <Text>BatteryLevel :- {BatteryLevel} %</Text>
         <Text>Landscape :- {isLandscape ? 'Yes' : 'No'}</Text>
         <Text>AirplaneModeon :- {isAirplaneMode ? 'Yes' : 'No'}</Text>
         <Text>BatteryCharging :- {isBatteryCharging ? 'Yes' : 'No'}</Text>
@@ -157,10 +163,10 @@ export const Screen_2 = () => {
         <Text>InstanceId :- {InstanceId}</Text>
         <Text>SecurityPatch :- {SecurityPatch}</Text>
 
-        <Text>TotalMemory :- {getTotalMemory}</Text>
-        <Text>UsedMemory :- {UsedMemory}</Text>
-        <Text>TotalDiskCapacity :- {getTotalDiskCapacity}</Text>
-        <Text>FreeDiskStorage :- {getFreeDiskStorage}</Text>
+        <Text>Total Ram :- {getTotalMemory} GB</Text>
+        <Text>Used Ram :- {UsedMemory} GB</Text>
+        <Text>Total Storage :- {getTotalDiskCapacity} GB</Text>
+        <Text>Free Storage :- {getFreeDiskStorage} GB</Text>
 
         <Text
           style={{
