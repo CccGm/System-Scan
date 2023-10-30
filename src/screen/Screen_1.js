@@ -1,8 +1,8 @@
-import React, {Children, useEffect, useState} from 'react';
-import {Button, Text, TouchableOpacity, View} from 'react-native';
+import React, { Children, useEffect, useState } from 'react';
+import { Button, Text, TouchableOpacity, View } from 'react-native';
 import Ping from 'react-native-ping';
-import {NetworkInfo} from 'react-native-network-info';
-import {getIpAddressesForHostname} from 'react-native-dns-lookup';
+import { NetworkInfo } from 'react-native-network-info';
+import { getIpAddressesForHostname } from 'react-native-dns-lookup';
 
 export const Screen_1 = () => {
   const [ip, setip] = useState(null);
@@ -30,7 +30,6 @@ export const Screen_1 = () => {
     setAvailable(LIST);
     console.log('Done!');
   }
-
   useEffect(() => {
     NetworkInfo.getIPAddress().then(ipAddress => {
       console.log(ipAddress, '----ipaddress');
@@ -76,14 +75,16 @@ export const Screen_1 = () => {
   };
 
   return (
-    <View style={{flex: 1, margin: 10, borderWidth: 1, padding: 20}}>
-      <Text style={{fontSize: 20, color: '#5da539'}}>Screen 1</Text>
+    <View style={{ flex: 1, margin: 10, borderWidth: 1, padding: 20 }}>
+      <Text style={{ fontSize: 20, color: '#5da539' }}>Screen 1</Text>
       {available == null ? (
         <Text>Scanning ...</Text>
       ) : (
-        <View style={{flex: 1, padding: 10}}>
+        <View style={{ flex: 1, padding: 10 }}>
           {available.map(data => {
-            return <Text style={{fontSize: 16, color: '#d36318'}}>{data}</Text>;
+            return (
+              <Text style={{ fontSize: 16, color: '#d36318' }}>{data}</Text>
+            );
           })}
 
           <TouchableOpacity
@@ -96,7 +97,8 @@ export const Screen_1 = () => {
               alignItems: 'center',
               backgroundColor: '#2bbd2650',
             }}>
-            <Text style={{fontSize: 16, fontWeight: '500', color: '#897213aa'}}>
+            <Text
+              style={{ fontSize: 16, fontWeight: '500', color: '#897213aa' }}>
               Re Scan
             </Text>
           </TouchableOpacity>
