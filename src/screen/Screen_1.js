@@ -1,5 +1,5 @@
 import React, { Children, useEffect, useState } from 'react';
-import { Button, Text, TouchableOpacity, View } from 'react-native';
+import { Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Ping from 'react-native-ping';
 import { NetworkInfo } from 'react-native-network-info';
 import { getIpAddressesForHostname } from 'react-native-dns-lookup';
@@ -26,7 +26,7 @@ export const Screen_1 = () => {
         // console.log('special code', error.code, error.message, 'no is:-', i);
       }
     }
-    console.log(JSON.stringify(LIST));
+    console.log(JSON.stringify(LIST), '<---Available ips');
     setAvailable(LIST);
     console.log('Done!');
   }
@@ -81,9 +81,27 @@ export const Screen_1 = () => {
         <Text>Scanning ...</Text>
       ) : (
         <View style={{ flex: 1, padding: 10 }}>
-          {available.map(data => {
+          {available.map((data, key) => {
             return (
-              <Text style={{ fontSize: 16, color: '#d36318' }}>{data}</Text>
+              <View
+                style={{
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: '#b8c553ff',
+                  borderRadius: 10,
+                  marginTop: 5,
+                  flexDirection: 'row',
+                }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: '#34bbd3a6',
+                    marginHorizontal: 12,
+                  }}>
+                  {key + 1}.
+                </Text>
+                <Text style={{ fontSize: 16, color: '#d36318' }}>{data}</Text>
+              </View>
             );
           })}
 
@@ -95,10 +113,10 @@ export const Screen_1 = () => {
               borderRadius: 8,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: '#2bbd2650',
+              backgroundColor: '#74e470ad',
             }}>
             <Text
-              style={{ fontSize: 16, fontWeight: '500', color: '#897213aa' }}>
+              style={{ fontSize: 16, fontWeight: '500', color: '#bb9b1bff' }}>
               Re Scan
             </Text>
           </TouchableOpacity>

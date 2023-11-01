@@ -11,7 +11,7 @@ export const getRates = async () => {
       query: gql`
         query GetRates {
           rates(currency: "USD") {
-            currency
+            two
           }
         }
       `,

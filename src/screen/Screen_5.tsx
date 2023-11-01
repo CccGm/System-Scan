@@ -31,6 +31,9 @@ export default function Screen_5() {
       method: 'POST',
       body: formData,
     });
+    fetch('https://www.speedtest.net/', { method: 'GET' }).then(ckg =>
+      console.log(JSON.stringify(ckg, null, 2)),
+    );
     fetch('https://httpstat.us/200', { method: 'HEAD' });
     fetch('https://postman-echo.com/put', {
       method: 'PUT',
@@ -48,7 +51,6 @@ export default function Screen_5() {
   };
 
   startNetworkLogging({
-    ignoredHosts: ['192.168.1.28', '127.0.0.1'],
     maxRequests: 500,
     ignoredUrls: ['https://httpstat.us/other'],
     ignoredPatterns: [/^POST http:\/\/(192|10)/],
@@ -103,7 +105,7 @@ export default function Screen_5() {
   );
 }
 
-const themedStyles = (dark = false) =>
+const themedStyles = (dark = true) =>
   StyleSheet.create({
     container: {
       flex: 1,
