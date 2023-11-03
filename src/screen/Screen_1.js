@@ -6,12 +6,12 @@ import { getIpAddressesForHostname } from 'react-native-dns-lookup';
 
 export const Screen_1 = () => {
   const [ip, setip] = useState(null);
-  const [available, setAvailable] = useState(null);
-  const [getway, setgateWay] = useState(null);
+  const [available, setAvailable] = useState([]);
+  const [scan, setScan] = useState(false);
 
-  let LIST = [];
   async function lanScan() {
-    setAvailable(null);
+    setAvailable([]);
+    setScan(true);
     for (var i = 1; i <= 255; i++) {
       try {
         await Ping.start(ip.substring(0, ip.lastIndexOf('.')) + '.' + i, {
@@ -21,13 +21,16 @@ export const Screen_1 = () => {
           ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
           '<- awailable ->',
         );
-        LIST.push(ip.substring(0, ip.lastIndexOf('.')) + '.' + i);
+
+        setAvailable(old => [
+          ...old,
+          ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
+        ]);
       } catch (error) {
         // console.log('special code', error.code, error.message, 'no is:-', i);
       }
     }
-    console.log(JSON.stringify(LIST), '<---Available ips');
-    setAvailable(LIST);
+    setScan(false);
     console.log('Done!');
   }
   useEffect(() => {
@@ -44,14 +47,13 @@ export const Screen_1 = () => {
     // Get Default Gateway IP
     NetworkInfo.getGatewayIPAddress().then(defaultGateway => {
       console.log(defaultGateway, '----gate way');
-      setgateWay(defaultGateway);
     });
   }, []);
 
   useEffect(() => {
     if (ip != null) {
       lanScan();
-      getIpAddressesForHostname('192.168.0.109').then(ipAddresses =>
+      getIpAddressesForHostname('192.168.5.102').then(ipAddresses =>
         console.log(ipAddresses, 'host name ---'),
       );
     }
@@ -75,51 +77,83 @@ export const Screen_1 = () => {
   };
 
   return (
-    <View style={{ flex: 1, margin: 10, borderWidth: 1, padding: 20 }}>
-      <Text style={{ fontSize: 20, color: '#5da539' }}>Screen 1</Text>
+    <View
+      style={{
+        flex: 1,
+        margin: 10,
+        borderWidth: 1,
+        padding: 20,
+        borderColor: '#b8c553ff',
+        borderRadius: 10,
+      }}>
+      <Text style={{ fontSize: 20, color: '#909109' }}>
+        Connected IP Address
+      </Text>
       {available == null ? (
         <Text>Scanning ...</Text>
       ) : (
-        <View style={{ flex: 1, padding: 10 }}>
+        <View style={{ flex: 1, padding: 10, marginLeft: 30 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingHorizontal: 10,
+              marginVertical: 10,
+            }}>
+            <Text style={{ fontSize: 16, color: 'black' }}>No.</Text>
+            <Text style={{ fontSize: 16, color: 'black', marginLeft: 40 }}>
+              IP Address
+            </Text>
+          </View>
           {available.map((data, key) => {
             return (
               <View
                 style={{
-                  padding: 10,
-                  borderWidth: 1,
-                  borderColor: '#b8c553ff',
-                  borderRadius: 10,
                   marginTop: 5,
                   flexDirection: 'row',
-                }}>
+                }}
+                key={key}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: 15,
                     color: '#34bbd3a6',
                     marginHorizontal: 12,
                   }}>
                   {key + 1}.
                 </Text>
-                <Text style={{ fontSize: 16, color: '#d36318' }}>{data}</Text>
+                <Text
+                  style={{ fontSize: 15, color: '#d36318', marginLeft: 30 }}>
+                  {data}
+                </Text>
               </View>
             );
           })}
-
-          <TouchableOpacity
-            onPress={lanScan}
-            style={{
-              margin: 25,
-              padding: 10,
-              borderRadius: 8,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#74e470ad',
-            }}>
-            <Text
-              style={{ fontSize: 16, fontWeight: '500', color: '#bb9b1bff' }}>
-              Re Scan
-            </Text>
-          </TouchableOpacity>
+          {scan ? (
+            <View style={{ alignItems: 'center', marginTop: 60 }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: 'red',
+                }}>
+                Scanning....
+              </Text>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={lanScan}
+              style={{
+                margin: 40,
+                padding: 10,
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#74e470ad',
+              }}>
+              <Text
+                style={{ fontSize: 16, fontWeight: '600', color: '#bb9b1bff' }}>
+                Re Scan
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
     </View>
