@@ -1,58 +1,62 @@
-import React, { useState } from 'react';
-import { LogBox, Text, View } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
-// import TcpSocket from 'react-native-tcp';
-import Port from '../common/Port';
+import React, { useEffect, useState } from 'react';
+import { PermissionsAndroid, Text, View } from 'react-native';
+import WifiManager from 'react-native-wifi-reborn';
 
 const Screen_6 = () => {
-  // Define a list of IP addresses and ports to check
-  const targetIPs = ['192.168.5.1', '192.168.5.102', '192.168.5.103'];
-  const targetPorts = Port;
-  const [open, setOpen] = useState(null);
+  const [wifiList, setWifiList] = useState([]);
+  const [connectedSSID, setConnectedSSID] = useState(null);
 
-  LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
-  LogBox.ignoreAllLogs();
+  useEffect(() => {
+    const check = async () => {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location permission is required for WiFi connections',
+          message:
+            'This app needs location permission as this is required  ' +
+            'to scan for wifi networks.',
+          buttonNegative: 'DENY',
+          buttonPositive: 'ALLOW',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        // You can now use react-native-wifi-reborn loadWifiList();
+        getCurrentWifiSSID();
+        loadWifiList();
+      } else {
+        check();
+      }
+    };
+    check();
+  }, []);
 
-  // Create a function to check the status of multiple IP addresses and ports
-  const checkPortsOnIPs = () => {
-    targetIPs.forEach(ip => {
-      targetPorts.forEach(port => {
-        checkPortStatus(ip, port);
-      });
-    });
-  };
-
-  const checkPortStatus = (ip, port) => {
-    const client = TcpSocket.createConnection({
-      host: ip,
-      port: port,
-    });
-
-    client.on('connect', () => {
-      console.error(`Port ${port} is open on ${ip}`);
-      setOpen(`Port ${port} is open on ${ip}`);
-      client.end(); // Close the socket connection
-    });
-
-    client.on('error', error => {
-      //   console.log(`Port ${port} is closed on ${ip}`);
-      client.destroy(); // Close the socket connection
-    });
-  };
-
-  // Use NetInfo to check the network status before checking ports
-  NetInfo.fetch().then(state => {
-    if (state.isConnected) {
-      checkPortsOnIPs();
-    } else {
-      console.log('Device is not connected to the internet.');
+  const loadWifiList = async () => {
+    try {
+      const wifiArray = await WifiManager.loadWifiList();
+      setWifiList(wifiArray);
+      console.log('Available Wi-Fi networks:', wifiArray);
+    } catch (error) {
+      console.error('Error loading Wi-Fi list:', error);
     }
-  });
+  };
+
+  const getCurrentWifiSSID = async () => {
+    try {
+      const ssid = await WifiManager.getCurrentWifiSSID();
+      setConnectedSSID(ssid);
+      console.log('Connected Wi-Fi network SSID:', ssid);
+    } catch (error) {
+      console.error('Error getting connected Wi-Fi network:', error);
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
-      <Text>hiii</Text>
-      <Text>{open}</Text>
+      <Text>Connected Wi-Fi SSID: {connectedSSID}</Text>
+      <Text>Available Wi-Fi Networks:</Text>
+      {wifiList.map((wifi, index) => (
+        <Text key={index}>{wifi.SSID}</Text>
+      ))}
     </View>
   );
 };

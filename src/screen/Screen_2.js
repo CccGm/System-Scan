@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import RNBluetoothClassic from 'react-native-bluetooth-classic';
 
 export const Screen_2 = () => {
   const [Manufacturer, setManufacturer] = useState(null);
@@ -37,6 +38,8 @@ export const Screen_2 = () => {
   const [getTotalMemory, setgetTotalMemory] = useState(null);
   const [getTotalDiskCapacity, setgetTotalDiskCapacity] = useState(null);
   const [getFreeDiskStorage, setgetFreeDiskStorage] = useState(null);
+  const [bondBluetooth, setBondbluetooth] = useState([]);
+  const [connected, setConnected] = useState([]);
 
   useEffect(() => {
     getDataAsync();
@@ -44,6 +47,10 @@ export const Screen_2 = () => {
 
   const getDataAsync = async () => {
     try {
+      const paired = await RNBluetoothClassic.getBondedDevices();
+      setBondbluetooth(paired);
+      await RNBluetoothClassic.onDeviceConnected(data => setConnected(data));
+
       let BundleId = DeviceInfo.getBundleId();
       setgetBundleId(BundleId);
       let DeviceId = DeviceInfo.getDeviceId();
@@ -193,9 +200,33 @@ export const Screen_2 = () => {
           <Text style={styles.text}>
             HeadphonesConnected :- {isHeadphonesConnected ? 'Yes' : 'No'}
           </Text>
+
           <Text style={styles.text}>device :- {device}</Text>
+          <Text style={styles.text}>tablet :- {isTablet ? 'Yes' : 'No'}</Text>
           <Text style={styles.text}>Incremental :- {Incremental}</Text>
           <Text style={styles.text}>InstanceId :- {InstanceId}</Text>
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.mianHeader}>Bluettoth Bonded List </Text>
+          {bondBluetooth == [] ? (
+            <Text style={{ fontSize: 10 }}>No device Found</Text>
+          ) : (
+            bondBluetooth.map((data, key) => {
+              return (
+                <View
+                  key={key}
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingRight: 10,
+                  }}>
+                  <Text style={{ color: 'black' }}>{data.name}</Text>
+                  <Text style={{ color: '#299c59' }}>{data.id}</Text>
+                </View>
+              );
+            })
+          )}
+          <Text>{JSON.stringify(connected)}</Text>
         </View>
       </ScrollView>
     </View>

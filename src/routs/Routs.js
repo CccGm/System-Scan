@@ -27,7 +27,7 @@ export const Routs = () => {
           <Tab.Screen name="Installed Apps" component={Screen_4} />
         )}
         <Tab.Screen name="Network Logger" component={Screen_5} />
-        {/* <Tab.Screen name="Screen_6" component={Screen_6} /> */}
+        <Tab.Screen name="Testing" component={Screen_6} />
         <Tab.Screen name="Ip Open Ports" component={Screen_7} />
       </Tab.Navigator>
     );

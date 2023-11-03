@@ -46,7 +46,7 @@ const Screen_7 = () => {
     });
 
     client.on('error', error => {
-      // console.log(`Port ${port} is closed on ${ip}`);
+      console.log(`Port ${port} is closed on ${ip}`);
       client.destroy(); // Close the socket connection
     });
   };

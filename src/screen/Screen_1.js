@@ -53,7 +53,7 @@ export const Screen_1 = () => {
   useEffect(() => {
     if (ip != null) {
       lanScan();
-      getIpAddressesForHostname('192.168.5.102').then(ipAddresses =>
+      getIpAddressesForHostname(ip).then(ipAddresses =>
         console.log(ipAddresses, 'host name ---'),
       );
     }
