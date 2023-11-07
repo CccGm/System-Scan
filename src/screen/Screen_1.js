@@ -1,5 +1,12 @@
 import React, { Children, useEffect, useState } from 'react';
-import { Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Button,
+  FlatList,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Ping from 'react-native-ping';
 import { NetworkInfo } from 'react-native-network-info';
 import { getIpAddressesForHostname } from 'react-native-dns-lookup';
@@ -81,80 +88,84 @@ export const Screen_1 = () => {
       style={{
         flex: 1,
         margin: 10,
+        padding: 10,
         borderWidth: 1,
-        padding: 20,
         borderColor: '#b8c553ff',
         borderRadius: 10,
       }}>
-      <Text style={{ fontSize: 20, color: '#909109' }}>
+      <Text style={{ fontSize: 20, padding: 10, color: '#909109' }}>
         Connected IP Address
       </Text>
-      {available == null ? (
-        <Text>Scanning ...</Text>
-      ) : (
-        <View style={{ flex: 1, padding: 10, marginLeft: 30 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingHorizontal: 10,
-              marginVertical: 10,
-            }}>
-            <Text style={{ fontSize: 16, color: 'black' }}>No.</Text>
-            <Text style={{ fontSize: 16, color: 'black', marginLeft: 40 }}>
-              IP Address
-            </Text>
-          </View>
-          {available.map((data, key) => {
-            return (
+
+      <View style={{ flex: 1, padding: 10, marginLeft: 30 }}>
+        <View
+          style={{
+            marginHorizontal: 15,
+            marginVertical: 10,
+            flexDirection: 'row',
+          }}>
+          <Text style={{ fontSize: 16, color: 'black' }}>No.</Text>
+          <Text style={{ fontSize: 16, color: 'black', marginLeft: 40 }}>
+            IP Address
+          </Text>
+        </View>
+        {available == '' && scan == false ? (
+          <Text style={{ color: 'green', fontSize: 20, padding: 30 }}>
+            No Data Found ...
+          </Text>
+        ) : (
+          <FlatList
+            data={available}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item, index }) => (
               <View
                 style={{
                   marginTop: 5,
                   flexDirection: 'row',
-                }}
-                key={key}>
+                }}>
                 <Text
                   style={{
                     fontSize: 15,
                     color: '#34bbd3a6',
                     marginHorizontal: 12,
                   }}>
-                  {key + 1}.
+                  {index + 1}.
                 </Text>
                 <Text
                   style={{ fontSize: 15, color: '#d36318', marginLeft: 30 }}>
-                  {data}
+                  {item}
                 </Text>
               </View>
-            );
-          })}
-          {scan ? (
-            <View style={{ alignItems: 'center', marginTop: 60 }}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: 'red',
-                }}>
-                Scanning....
-              </Text>
-            </View>
-          ) : (
-            <TouchableOpacity
-              onPress={lanScan}
-              style={{
-                margin: 40,
-                padding: 10,
-                borderRadius: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#74e470ad',
-              }}>
-              <Text
-                style={{ fontSize: 16, fontWeight: '600', color: '#bb9b1bff' }}>
-                Re Scan
-              </Text>
-            </TouchableOpacity>
-          )}
+            )}
+          />
+        )}
+      </View>
+      {scan ? (
+        <View style={{ alignItems: 'center', marginVertical: 60 }}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: 'red',
+            }}>
+            Scanning....
+          </Text>
         </View>
+      ) : (
+        <TouchableOpacity
+          onPress={lanScan}
+          style={{
+            marginHorizontal: 60,
+            marginVertical: 20,
+            padding: 10,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#74e470ad',
+          }}>
+          <Text style={{ fontSize: 16, fontWeight: '600', color: '#bb9b1bff' }}>
+            Re Scan
+          </Text>
+        </TouchableOpacity>
       )}
     </View>
   );

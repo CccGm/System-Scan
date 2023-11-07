@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import RNBluetoothClassic from 'react-native-bluetooth-classic';
+import WifiManager from 'react-native-wifi-reborn';
+import NetInfo, { NetworkInfo } from 'react-native-network-info';
 
 export const Screen_2 = () => {
   const [Manufacturer, setManufacturer] = useState(null);
@@ -40,19 +42,33 @@ export const Screen_2 = () => {
   const [getFreeDiskStorage, setgetFreeDiskStorage] = useState(null);
   const [bondBluetooth, setBondbluetooth] = useState([]);
   const [connected, setConnected] = useState([]);
+  const [wifiSsid, setWifiSsid] = useState(null);
+  const [wifiIP, setWifiIp] = useState(null);
 
   useEffect(() => {
     getDataAsync();
+    getListpaired();
   }, []);
 
-  const getDataAsync = async () => {
+  const getListpaired = async () => {
     try {
       const paired = await RNBluetoothClassic.getBondedDevices();
       setBondbluetooth(paired);
-      await RNBluetoothClassic.onDeviceConnected(data => setConnected(data));
-
+      RNBluetoothClassic.onDeviceConnected(data => setConnected(data));
+      const ssid = await WifiManager.getCurrentWifiSSID();
+      setWifiSsid(ssid);
       let BundleId = DeviceInfo.getBundleId();
       setgetBundleId(BundleId);
+      NetworkInfo.getIPV4Address().then(ipv4Address => {
+        setWifiIp(ipv4Address);
+      });
+    } catch (error) {
+      console.error('Trouble getting device paierd ', error);
+    }
+  };
+
+  const getDataAsync = async () => {
+    try {
       let DeviceId = DeviceInfo.getDeviceId();
       setDeviceId(DeviceId);
       let HasNotch = DeviceInfo.hasNotch();
@@ -220,7 +236,7 @@ export const Screen_2 = () => {
                     justifyContent: 'space-between',
                     paddingRight: 10,
                   }}>
-                  <Text style={{ color: 'black' }}>{data.name}</Text>
+                  <Text style={styles.text}>{data.name}</Text>
                   <Text style={{ color: '#299c59' }}>{data.id}</Text>
                 </View>
               );
@@ -228,6 +244,29 @@ export const Screen_2 = () => {
           )}
           <Text>{JSON.stringify(connected)}</Text>
         </View>
+        {wifiSsid != null ? (
+          <View style={styles.container}>
+            <Text style={styles.mianHeader}>WIFI Details</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingRight: 10,
+              }}>
+              <Text style={styles.text}>Current SSID :-</Text>
+              <Text style={{ color: '#299c59' }}>{wifiSsid}</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingRight: 10,
+              }}>
+              <Text style={styles.text}>Current IP :-</Text>
+              <Text style={{ color: '#299c59' }}>{wifiIP}</Text>
+            </View>
+          </View>
+        ) : null}
       </ScrollView>
     </View>
   );
