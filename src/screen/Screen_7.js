@@ -13,13 +13,16 @@ const Screen_7 = () => {
     '192.168.5.103',
     '192.168.5.104',
     '192.168.5.105',
+    '192.168.5.106',
     '192.168.5.107',
     '192.168.5.108',
     '192.168.5.110',
+    '192.168.5.111',
     '192.168.5.117',
     '192.168.5.118',
     '192.168.5.119',
     '192.168.5.121',
+    '192.168.5.123',
     '192.168.5.124',
     '192.168.5.125',
   ];
@@ -35,7 +38,6 @@ const Screen_7 = () => {
         checkPortStatus(ip, port);
       });
     });
-    console.log('DONE');
   };
 
   const checkPortStatus = (ip, port) => {
@@ -52,6 +54,7 @@ const Screen_7 = () => {
         ip == targetIPs[targetIPs.length - 1]
       ) {
         setScan(false);
+        console.log('Done! Port Scan');
       }
       client.destroy(); // Close the socket connection
     });
@@ -62,8 +65,9 @@ const Screen_7 = () => {
         ip == targetIPs[targetIPs.length - 1]
       ) {
         setScan(false);
+        console.log('Done! Port Scan');
       }
-      // console.log(`Port ${port} is closed on ${ip}`);
+      console.log(`Port ${port} is closed on ${ip}`);
       client.destroy(); // Close the socket connection
     });
   };
@@ -130,7 +134,7 @@ const Screen_7 = () => {
       </View>
 
       {scan ? (
-        <View style={{ alignItems: 'center', marginVertical: 60 }}>
+        <View style={{ alignItems: 'center', marginBottom: 10 }}>
           <Text
             style={{
               fontSize: 18,
@@ -144,7 +148,6 @@ const Screen_7 = () => {
           onPress={checkPortsOnIPs}
           style={{
             marginHorizontal: 60,
-            marginVertical: 20,
             padding: 10,
             borderRadius: 10,
             justifyContent: 'center',

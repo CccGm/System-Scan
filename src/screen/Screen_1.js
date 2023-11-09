@@ -24,10 +24,10 @@ export const Screen_1 = () => {
         await Ping.start(ip.substring(0, ip.lastIndexOf('.')) + '.' + i, {
           timeout: 500,
         });
-        console.log(
-          ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
-          '<- awailable ->',
-        );
+        // console.log(
+        //   ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
+        //   '<- awailable ->',
+        // );
 
         setAvailable(old => [
           ...old,
@@ -38,7 +38,7 @@ export const Screen_1 = () => {
       }
     }
     setScan(false);
-    console.log('Done!');
+    console.log('Done! IP Scan');
   }
   useEffect(() => {
     NetworkInfo.getIPAddress().then(ipAddress => {
@@ -141,7 +141,7 @@ export const Screen_1 = () => {
         )}
       </View>
       {scan ? (
-        <View style={{ alignItems: 'center', marginVertical: 60 }}>
+        <View style={{ alignItems: 'center', marginBottom: 10 }}>
           <Text
             style={{
               fontSize: 18,
@@ -155,7 +155,6 @@ export const Screen_1 = () => {
           onPress={lanScan}
           style={{
             marginHorizontal: 60,
-            marginVertical: 20,
             padding: 10,
             borderRadius: 10,
             justifyContent: 'center',
