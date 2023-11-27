@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import RNRnLanScan from 'react-native-rn-lan-scan';
-const Screen_6 = () => {
+
+const Testing = () => {
   return (
     <View>
       <Text>hiii</Text>
@@ -9,4 +10,4 @@ const Screen_6 = () => {
   );
 };
 
-export default Screen_6;
+export default Testing;

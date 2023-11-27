@@ -1,20 +1,15 @@
-import React, { Children, useEffect, useState } from 'react';
-import {
-  Button,
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import Ping from 'react-native-ping';
 import { NetworkInfo } from 'react-native-network-info';
 import { getIpAddressesForHostname } from 'react-native-dns-lookup';
+import { useNavigation } from '@react-navigation/native';
 
-export const Screen_1 = () => {
+export const Scan_IP_Connected = () => {
   const [ip, setip] = useState(null);
   const [available, setAvailable] = useState([]);
   const [scan, setScan] = useState(false);
+  const navigation = useNavigation();
 
   async function lanScan() {
     setAvailable([]);
@@ -40,24 +35,12 @@ export const Screen_1 = () => {
     setScan(false);
     console.log('Done! IP Scan');
   }
-  useEffect(() => {
-    NetworkInfo.getIPAddress().then(ipAddress => {
-      console.log(ipAddress, '----ipaddress');
-    });
 
-    // Get IPv4 IP (priority: WiFi first, cellular second)
+  useEffect(() => {
     NetworkInfo.getIPV4Address().then(ipv4Address => {
       console.log(ipv4Address, '----ip v4');
       setip(ipv4Address);
     });
-
-    // Get Default Gateway IP
-    NetworkInfo.getGatewayIPAddress().then(defaultGateway => {
-      console.log(defaultGateway, '----gate way');
-    });
-  }, []);
-
-  useEffect(() => {
     if (ip != null) {
       lanScan();
       getIpAddressesForHostname(ip).then(ipAddresses =>
@@ -97,17 +80,16 @@ export const Screen_1 = () => {
         Connected IP Address
       </Text>
 
-      <View style={{ flex: 1, padding: 10, marginLeft: 30 }}>
+      <View style={{ flex: 1, padding: 15 }}>
         <View
           style={{
-            marginHorizontal: 15,
             marginVertical: 10,
             flexDirection: 'row',
+            justifyContent: 'space-between',
           }}>
           <Text style={{ fontSize: 16, color: 'black' }}>No.</Text>
-          <Text style={{ fontSize: 16, color: 'black', marginLeft: 40 }}>
-            IP Address
-          </Text>
+          <Text style={{ fontSize: 16, color: 'black' }}>IP Address</Text>
+          <Text style={{ fontSize: 16, color: 'black' }}>Open Ports</Text>
         </View>
         {available == '' && scan == false ? (
           <Text style={{ color: 'green', fontSize: 20, padding: 30 }}>
@@ -115,26 +97,37 @@ export const Screen_1 = () => {
           </Text>
         ) : (
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={available}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
               <View
                 style={{
-                  marginTop: 5,
+                  marginTop: 10,
                   flexDirection: 'row',
+                  justifyContent: 'space-between',
                 }}>
                 <Text
                   style={{
                     fontSize: 15,
                     color: '#34bbd3a6',
-                    marginHorizontal: 12,
+                    marginHorizontal: 10,
                   }}>
                   {index + 1}.
                 </Text>
-                <Text
-                  style={{ fontSize: 15, color: '#d36318', marginLeft: 30 }}>
-                  {item}
-                </Text>
+                <Text style={{ fontSize: 15, color: '#d36318' }}>{item}</Text>
+                <TouchableOpacity
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  onPress={() =>
+                    navigation.navigate('Ip_Port_Scan', { IP: [item] })
+                  }>
+                  <Text style={{ fontSize: 16, color: 'green' }}>
+                    Scan Port
+                  </Text>
+                </TouchableOpacity>
               </View>
             )}
           />
@@ -144,27 +137,56 @@ export const Screen_1 = () => {
         <View style={{ alignItems: 'center', marginBottom: 10 }}>
           <Text
             style={{
-              fontSize: 18,
+              fontSize: 20,
               color: 'red',
             }}>
             Scanning....
           </Text>
         </View>
       ) : (
-        <TouchableOpacity
-          onPress={lanScan}
+        <View
           style={{
-            marginHorizontal: 60,
-            padding: 10,
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#74e470ad',
+            justifyContent: 'space-around',
+            flexDirection: 'row',
+            marginBottom: 10,
           }}>
-          <Text style={{ fontSize: 16, fontWeight: '600', color: '#bb9b1bff' }}>
-            Re Scan
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={lanScan}
+            style={{
+              // marginHorizontal: 60,
+              padding: 10,
+              width: '45%',
+              borderRadius: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#74e470ad',
+            }}>
+            <Text
+              style={{ fontSize: 16, fontWeight: '600', color: '#bb9b1bff' }}>
+              Re Scan
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              // marginHorizontal: 60,
+              width: '45%',
+              padding: 10,
+              borderRadius: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#74e470ad',
+            }}
+            onPress={() =>
+              navigation.navigate('Ip_Port_Scan', {
+                IP: available.length == 1 ? [available] : available,
+              })
+            }>
+            <Text
+              style={{ fontSize: 16, fontWeight: '600', color: '#bb9b1bff' }}>
+              All Port Scan
+            </Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );

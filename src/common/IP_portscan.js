@@ -1,31 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, LogBox, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import TcpSocket from 'react-native-tcp-socket';
-import Port from '../common/Port';
+import Port from './Port';
 
-const Screen_7 = () => {
-  LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
-  LogBox.ignoreAllLogs();
-  const targetIPs = [
-    '192.168.5.1',
-    '192.168.5.100',
-    '192.168.5.102',
-    '192.168.5.103',
-    '192.168.5.104',
-    '192.168.5.105',
-    '192.168.5.106',
-    '192.168.5.107',
-    '192.168.5.108',
-    '192.168.5.110',
-    '192.168.5.111',
-    '192.168.5.117',
-    '192.168.5.118',
-    '192.168.5.119',
-    '192.168.5.121',
-    '192.168.5.123',
-    '192.168.5.124',
-    '192.168.5.125',
-  ];
+const IP_portscan = props => {
+  const IPS = props.route.params.IP;
+  const targetIPs = IPS;
   const targetPorts = Port;
   const [scan, setScan] = useState(false);
   const [open, setOpen] = useState([]);
@@ -33,6 +13,7 @@ const Screen_7 = () => {
   const checkPortsOnIPs = () => {
     setOpen([]);
     setScan(true);
+
     targetIPs.forEach(ip => {
       targetPorts.forEach(port => {
         checkPortStatus(ip, port);
@@ -47,7 +28,6 @@ const Screen_7 = () => {
     });
 
     client.on('connect', () => {
-      console.error(`Port ${port} is open on ${ip}`);
       setOpen(old => [...old, { ip_: ip, port_: port }]);
       if (
         port == targetPorts[targetPorts.length - 1] &&
@@ -67,7 +47,7 @@ const Screen_7 = () => {
         setScan(false);
         console.log('Done! Port Scan');
       }
-      console.log(`Port ${port} is closed on ${ip}`);
+      // console.log(`Port ${port} is closed on ${ip}`);
       client.destroy(); // Close the socket connection
     });
   };
@@ -75,7 +55,6 @@ const Screen_7 = () => {
   useEffect(() => {
     checkPortsOnIPs();
   }, []);
-
   return (
     <View
       style={{
@@ -103,7 +82,7 @@ const Screen_7 = () => {
         </View>
         {open == '' && scan == false ? (
           <Text style={{ color: 'green', fontSize: 20, padding: 30 }}>
-            No Data Found ...
+            No Open Ports Found ...
           </Text>
         ) : (
           <FlatList
@@ -134,7 +113,7 @@ const Screen_7 = () => {
       </View>
 
       {scan ? (
-        <View style={{ alignItems: 'center', marginBottom: 10 }}>
+        <View style={{ alignItems: 'center', marginBottom: 25 }}>
           <Text
             style={{
               fontSize: 18,
@@ -148,6 +127,7 @@ const Screen_7 = () => {
           onPress={checkPortsOnIPs}
           style={{
             marginHorizontal: 60,
+            marginBottom: 30,
             padding: 10,
             borderRadius: 10,
             justifyContent: 'center',
@@ -163,4 +143,4 @@ const Screen_7 = () => {
   );
 };
 
-export default Screen_7;
+export default IP_portscan;

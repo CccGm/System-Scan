@@ -3,9 +3,9 @@ import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import RNBluetoothClassic from 'react-native-bluetooth-classic';
 import WifiManager from 'react-native-wifi-reborn';
-import NetInfo, { NetworkInfo } from 'react-native-network-info';
+import { NetworkInfo } from 'react-native-network-info';
 
-export const Screen_2 = () => {
+export const Device_Info = () => {
   const [Manufacturer, setManufacturer] = useState(null);
   const [BuildId, setBuildId] = useState(null);
   const [DeviceName, setDeviceName] = useState(null);
@@ -41,7 +41,6 @@ export const Screen_2 = () => {
   const [getTotalDiskCapacity, setgetTotalDiskCapacity] = useState(null);
   const [getFreeDiskStorage, setgetFreeDiskStorage] = useState(null);
   const [bondBluetooth, setBondbluetooth] = useState([]);
-  const [connected, setConnected] = useState([]);
   const [wifiSsid, setWifiSsid] = useState(null);
   const [wifiIP, setWifiIp] = useState(null);
 
@@ -54,14 +53,13 @@ export const Screen_2 = () => {
     try {
       const paired = await RNBluetoothClassic.getBondedDevices();
       setBondbluetooth(paired);
-      RNBluetoothClassic.onDeviceConnected(data => setConnected(data));
-      const ssid = await WifiManager.getCurrentWifiSSID();
-      setWifiSsid(ssid);
       let BundleId = DeviceInfo.getBundleId();
       setgetBundleId(BundleId);
       NetworkInfo.getIPV4Address().then(ipv4Address => {
         setWifiIp(ipv4Address);
       });
+      const ssid = await WifiManager.getCurrentWifiSSID();
+      setWifiSsid(ssid);
     } catch (error) {
       console.error('Trouble getting device paierd ', error);
     }
@@ -222,12 +220,11 @@ export const Screen_2 = () => {
           <Text style={styles.text}>Incremental :- {Incremental}</Text>
           <Text style={styles.text}>InstanceId :- {InstanceId}</Text>
         </View>
-        <View style={styles.container}>
-          <Text style={styles.mianHeader}>Bluettoth Bonded List </Text>
-          {bondBluetooth == [] ? (
-            <Text style={{ fontSize: 10 }}>No device Found</Text>
-          ) : (
-            bondBluetooth.map((data, key) => {
+        {bondBluetooth == '' ? null : (
+          <View style={styles.container}>
+            <Text style={styles.mianHeader}>Bluettoth Bonded List </Text>
+
+            {bondBluetooth.map((data, key) => {
               return (
                 <View
                   key={key}
@@ -240,10 +237,9 @@ export const Screen_2 = () => {
                   <Text style={{ color: '#299c59' }}>{data.id}</Text>
                 </View>
               );
-            })
-          )}
-          <Text>{JSON.stringify(connected)}</Text>
-        </View>
+            })}
+          </View>
+        )}
         {wifiSsid != null ? (
           <View style={styles.container}>
             <Text style={styles.mianHeader}>WIFI Details</Text>
