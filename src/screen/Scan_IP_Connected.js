@@ -17,7 +17,7 @@ export const Scan_IP_Connected = () => {
     for (var i = 1; i <= 255; i++) {
       try {
         await Ping.start(ip.substring(0, ip.lastIndexOf('.')) + '.' + i, {
-          timeout: 500,
+          timeout: 200,
         });
         // console.log(
         //   ip.substring(0, ip.lastIndexOf('.')) + '.' + i,

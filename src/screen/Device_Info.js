@@ -51,13 +51,13 @@ export const Device_Info = () => {
 
   const getListpaired = async () => {
     try {
-      const paired = await RNBluetoothClassic.getBondedDevices();
-      setBondbluetooth(paired);
       let BundleId = DeviceInfo.getBundleId();
       setgetBundleId(BundleId);
       NetworkInfo.getIPV4Address().then(ipv4Address => {
         setWifiIp(ipv4Address);
       });
+      const paired = await RNBluetoothClassic.getBondedDevices();
+      setBondbluetooth(paired);
       const ssid = await WifiManager.getCurrentWifiSSID();
       setWifiSsid(ssid);
     } catch (error) {

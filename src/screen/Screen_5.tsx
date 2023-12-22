@@ -15,35 +15,34 @@ import NetworkLogger, {
   startNetworkLogging,
 } from 'react-native-network-logger';
 import { getRates } from './apolloClient';
+import axios from 'axios';
 
 export default function Screen_5() {
   const formData = new FormData();
   formData.append('test', 'hello');
   const makeRequest = () => {
-    fetch(
+    axios(
       'https://postman-echo.com/post?query=some really long query that goes onto multiple lines so we can test what happens',
       {
         method: 'POST',
-        body: JSON.stringify({ test: 'hello' }),
       },
     );
-    fetch('https://postman-echo.com/post?formData', {
+    axios('https://postman-echo.com/post?formData', {
       method: 'POST',
-      body: formData,
     });
-    fetch('https://www.speedtest.net/', { method: 'GET' }).then(ckg =>
+    axios('https://www.speedtest.net/', { method: 'GET' }).then(ckg =>
       console.log(JSON.stringify(ckg, null, 2)),
     );
-    fetch('https://httpstat.us/200', { method: 'HEAD' });
+    axios('https://httpstat.us/200', { method: 'HEAD' });
     fetch('https://postman-echo.com/put', {
       method: 'PUT',
       body: JSON.stringify({ test: 'hello' }),
     });
-    fetch('https://httpstat.us/302');
+    axios('https://httpstat.us/302');
     fetch('https://httpstat.us/400');
     fetch('https://httpstat.us/500');
     // Non JSON response
-    fetch('https://postman-echo.com/stream/2');
+    axios('https://postman-echo.com/stream/2');
 
     getRates();
     // Test requests that fail

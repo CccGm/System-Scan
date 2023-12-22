@@ -6,7 +6,7 @@ import { Reduce_AppData } from '../common/Reduce_AppData';
 export const Installed_Apps = () => {
   const [result, setResult] = useState(null);
   useEffect(() => {
-    setResult(InstalledApps.getApps());
+    setResult(InstalledApps.getSortedApps());
   }, []);
 
   return (

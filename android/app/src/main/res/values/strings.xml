@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">System_Scan</string>
+    <string name="nonPrivilegedMacAccess">Unavailable for non-privileged apps starting with Android 11</string>
+    <string name="errAccessArp">Unable to access ARP entries</string>
 </resources>
