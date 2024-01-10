@@ -369,7 +369,7 @@ int Java_com_com_native_code_networkdiscovery_portauthority_ScanHostsAsyncTask_n
 }
 
 JNIEXPORT jint JNICALL
-Java_com_system_1scan_portauthority_ScanHostsAsyncTask_nativeIPNeigh(JNIEnv *env,
+Java_com_native_1code_networkdiscovery_portauthority_ScanHostsAsyncTask_nativeIPNeigh(JNIEnv *env,
                                                                                       jobject thiz,
                                                                                       jint fileDescriptor) {
     FILE *mypipe = fdopen(fileDescriptor, "w");

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
-// import Ping from 'react-native-ping';
+import Ping from 'react-native-ping';
 import { NetworkInfo } from 'react-native-network-info';
 import { getIpAddressesForHostname } from 'react-native-dns-lookup';
 import { useNavigation } from '@react-navigation/native';
@@ -12,27 +12,28 @@ export const Scan_IP_Connected = () => {
   const navigation = useNavigation();
 
   async function lanScan() {
-    // setAvailable([]);
-    // setScan(true);
-    // for (var i = 1; i <= 255; i++) {
-    //   try {
-    //     await Ping.start(ip.substring(0, ip.lastIndexOf('.')) + '.' + i, {
-    //       timeout: 200,
-    //     });
-    //     // console.log(
-    //     //   ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
-    //     //   '<- awailable ->',
-    //     // );
-    //     setAvailable(old => [
-    //       ...old,
-    //       ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
-    //     ]);
-    //   } catch (error) {
-    //     // console.log('special code', error.code, error.message, 'no is:-', i);
-    //   }
-    // }
-    // setScan(false);
-    // console.log('Done! IP Scan');
+    setAvailable([]);
+    setScan(true);
+    for (var i = 1; i <= 255; i++) {
+      try {
+        await Ping.start(ip.substring(0, ip.lastIndexOf('.')) + '.' + i, {
+          timeout: 200,
+        });
+        // console.log(
+        //   ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
+        //   '<- awailable ->',
+        // );
+
+        setAvailable(old => [
+          ...old,
+          ip.substring(0, ip.lastIndexOf('.')) + '.' + i,
+        ]);
+      } catch (error) {
+        // console.log('special code', error.code, error.message, 'no is:-', i);
+      }
+    }
+    setScan(false);
+    console.log('Done! IP Scan');
   }
 
   useEffect(() => {

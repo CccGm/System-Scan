@@ -5,12 +5,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Device_Info } from '../screen/Device_Info';
 import { Installed_Apps } from '../screen/Installed_Apps';
 import { Platform } from 'react-native';
+import Testing from '../screen/Testing';
 import Network_Scan from '../screen/Network_Scan';
 import { Scan_IP_Connected } from '../screen/Scan_IP_Connected';
 import Screen_5 from '../screen/Screen_5';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IP_portscan from '../common/IP_portscan';
-import { Testing } from '../screen/Testing';
 
 export const Routs = () => {
   const Stack = createNativeStackNavigator();

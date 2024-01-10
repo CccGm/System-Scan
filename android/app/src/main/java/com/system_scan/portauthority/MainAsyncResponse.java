@@ -1,7 +1,5 @@
 package com.system_scan.portauthority;
 
-import org.json.JSONException;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 public interface MainAsyncResponse extends ErrorAsyncResponse {
@@ -19,7 +17,7 @@ public interface MainAsyncResponse extends ErrorAsyncResponse {
      *
      * @param output
      */
-    void processFinish(int output) throws JSONException;
+    void processFinish(int output);
 
     /**
      * Delegate to handle string outputs
@@ -33,5 +31,5 @@ public interface MainAsyncResponse extends ErrorAsyncResponse {
      *
      * @param output
      */
-    void processFinish(boolean output) throws JSONException;
+    void processFinish(boolean output);
 }
