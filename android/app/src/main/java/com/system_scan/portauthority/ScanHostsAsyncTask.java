@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import com.system_scan.R;
 import com.system_scan.Utils.Constant;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -118,7 +120,11 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
             pipe = ParcelFileDescriptor.createPipe();
         } catch (IOException e) {
             reportError(activity, e);
-            cleanup(executor, activity, null);
+            try {
+                cleanup(executor, activity, null);
+            } catch (JSONException ex) {
+                throw new RuntimeException(ex);
+            }
             return;
         }
 
@@ -129,7 +135,11 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
         int returnCode = nativeIPNeigh(fd_write);
         if (returnCode != 0) {
             reportError(activity, new Exception(ctx.getResources().getString(R.string.errAccessArp)));
-            cleanup(executor, activity, null);
+            try {
+                cleanup(executor, activity, null);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
             return;
         }
 
@@ -140,7 +150,11 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
                 if ((line = reader.readLine()) == null) break;
             } catch (IOException e) {
                 reportError(activity, e);
-                cleanup(executor, activity, reader);
+                try {
+                    cleanup(executor, activity, reader);
+                } catch (JSONException ex) {
+                    throw new RuntimeException(ex);
+                }
                 return;
             }
 
@@ -157,7 +171,11 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
                 addr = InetAddress.getByName(ip);
             } catch (UnknownHostException e) {
                 reportError(activity, e);
-                cleanup(executor, activity, reader);
+                try {
+                    cleanup(executor, activity, reader);
+                } catch (JSONException ex) {
+                    throw new RuntimeException(ex);
+                }
                 return;
             }
 
@@ -185,7 +203,11 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
                     host = new Host(ip, macAddress);
                 } catch (UnknownHostException e) {
                     reportError(activity, e);
-                    cleanup(executor, activity, reader);
+                    try {
+                        cleanup(executor, activity, reader);
+                    } catch (JSONException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     return;
                 }
 
@@ -196,7 +218,11 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
                 } catch (UnknownHostException e) {
                     numHosts.decrementAndGet();
                     reportError(activity1, e);
-                    cleanup(executor, activity, reader);
+                    try {
+                        cleanup(executor, activity, reader);
+                    } catch (JSONException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     return;
                 }
 
@@ -221,7 +247,11 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
             });
         }
 
-        cleanup(executor, activity, reader);
+        try {
+            cleanup(executor, activity, reader);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void reportError(MainAsyncResponse activity, Exception e) {
@@ -230,7 +260,7 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
         }
     }
 
-    private void cleanup(@NonNull ExecutorService executor, MainAsyncResponse activity, Reader reader) {
+    private void cleanup(@NonNull ExecutorService executor, MainAsyncResponse activity, Reader reader) throws JSONException {
         executor.shutdown();
         if (activity != null) {
             activity.processFinish(true);

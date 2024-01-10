@@ -1,5 +1,7 @@
 package com.system_scan.portauthority;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.math.BigInteger;
@@ -46,7 +48,11 @@ public class ScanHostsRunnable implements Runnable {
 
                 MainAsyncResponse activity = delegate.get();
                 if (activity != null) {
-                    activity.processFinish(1);
+                    try {
+                        activity.processFinish(1);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }

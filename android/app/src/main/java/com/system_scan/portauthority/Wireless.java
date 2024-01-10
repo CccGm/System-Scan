@@ -24,6 +24,16 @@ public class Wireless {
 
     private final Context context;
 
+    public int numberOfHostsInWifiSubnet() throws NoWifiManagerException {
+        double subnet = getInternalWifiSubnet();
+        double hosts;
+        double bitsLeft = 32.0d - subnet;
+        hosts = Math.pow(2.0d, bitsLeft) - 2.0d;
+
+        return (int) hosts;
+    }
+
+
     public static class NoWifiManagerException extends Exception {
     }
 
