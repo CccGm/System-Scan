@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import RNBluetoothClassic from 'react-native-bluetooth-classic';
+// import RNBluetoothClassic from 'react-native-bluetooth-classic';
 import WifiManager from 'react-native-wifi-reborn';
 import { NetworkInfo } from 'react-native-network-info';
 
@@ -56,8 +56,8 @@ export const Device_Info = () => {
       NetworkInfo.getIPV4Address().then(ipv4Address => {
         setWifiIp(ipv4Address);
       });
-      const paired = await RNBluetoothClassic.getBondedDevices();
-      setBondbluetooth(paired);
+      // const paired = await RNBluetoothClassic.getBondedDevices();
+      // setBondbluetooth(paired);
       const ssid = await WifiManager.getCurrentWifiSSID();
       setWifiSsid(ssid);
     } catch (error) {

@@ -7,7 +7,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ReactShadowNode
 import com.facebook.react.uimanager.ViewManager
 
-class MyAppPackage : ReactPackage {
+class MyAppPackage2 : ReactPackage {
 
     override fun createViewManagers(
         reactContext: ReactApplicationContext

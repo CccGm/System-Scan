@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import com.system_scan.R;
 import com.system_scan.Utils.Constant;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -233,7 +235,11 @@ public class ScanHostsAsyncTask extends AsyncTask<Integer, Void, Void> {
     private void cleanup(@NonNull ExecutorService executor, MainAsyncResponse activity, Reader reader) {
         executor.shutdown();
         if (activity != null) {
-            activity.processFinish(true);
+            try {
+                activity.processFinish(true);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         if (reader != null) {

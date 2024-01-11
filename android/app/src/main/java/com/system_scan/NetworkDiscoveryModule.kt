@@ -2,8 +2,6 @@ package com.system_scan
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
@@ -13,15 +11,12 @@ import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.preference.PreferenceManager
 import android.util.Log
-import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.google.gson.Gson
-import com.system_scan.R
 import com.system_scan.Utils.Constant
 import com.system_scan.portauthority.Host
 import com.system_scan.portauthority.MainAsyncResponse
@@ -29,9 +24,6 @@ import com.system_scan.portauthority.ScanHostsAsyncTask
 import com.system_scan.portauthority.Wireless
 import com.system_scan.portauthority.Wireless.NoConnectivityManagerException
 import com.system_scan.portauthority.Wireless.NoWifiManagerException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.net.SocketException
 import java.net.UnknownHostException
@@ -39,7 +31,7 @@ import java.util.Collections
 import java.util.concurrent.atomic.AtomicInteger
 
 
-class NetworkDiscoveryModule(private val reactContext: ReactApplicationContext) :
+class NetworkDiscoveryModule2(private val reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
     private val TAG = "NetworkDiscoveryModule"
@@ -434,7 +426,7 @@ class NetworkDiscoveryModule(private val reactContext: ReactApplicationContext) 
         try {
             val enabled: Boolean = wifi.isEnabled
             if (!info.isConnected || !enabled) {
-                Log.e("getNetworkInfo => ", Wireless.getInternalMobileIpAddress())
+                Log.e("getNetworkInfo => ", Wireless.getInternalMobileIpAddress(wifi.getType()))
             }
             if (!enabled) {
                 Log.e("getNetworkInfo => ", resources?.getString(R.string.wifiDisabled).toString())
